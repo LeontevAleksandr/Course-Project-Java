@@ -49,6 +49,7 @@ public class EditingMinerDataBaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveMiner(); // Вызов метода для сохранения майнера
+                loadMiners();
             }
         });
 
@@ -94,15 +95,18 @@ public class EditingMinerDataBaseActivity extends AppCompatActivity {
             // Получаем ID документа для удаления
             String documentId = selectedMiner.getDocumentId(); // Добавьте этот метод в класс Miner
 
-            firestore.collection("miners").document(documentId).delete()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(EditingMinerDataBaseActivity.this, "Майнер успешно удалён", Toast.LENGTH_SHORT).show();
-                            loadMiners(); // Обновляем список майнеров
-                        } else {
-                            Toast.makeText(EditingMinerDataBaseActivity.this, "Ошибка удаления: " + task.getException(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+            minerRepository.deleteMiner(documentId, new MinerRepository.OnDeleteMinerListener() {
+                @Override
+                public void onDeleteSuccess() {
+                    Toast.makeText(EditingMinerDataBaseActivity.this, "Майнер успешно удалён", Toast.LENGTH_SHORT).show();
+                    loadMiners(); // Обновляем список майнеров
+                }
+
+                @Override
+                public void onDeleteError(Exception e) {
+                    Toast.makeText(EditingMinerDataBaseActivity.this, "Ошибка удаления: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         } else {
             Toast.makeText(this, "Ошибка: выбранный майнер не найден", Toast.LENGTH_SHORT).show();
         }
@@ -124,15 +128,16 @@ public class EditingMinerDataBaseActivity extends AppCompatActivity {
         // Создание нового объекта Miner
         Miner miner = new Miner(name, hashrate, powerConsumption);
 
-        // Сохранение объекта Miner в Firestore
-        firestore.collection("miners").add(miner)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(EditingMinerDataBaseActivity.this, "Майнер успешно сохранен", Toast.LENGTH_SHORT).show();
-                        // Не завершаем активити, как требуется
-                    } else {
-                        Toast.makeText(EditingMinerDataBaseActivity.this, "Ошибка сохранения: " + task.getException(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        minerRepository.addMiner(miner, new MinerRepository.OnAddMinerListener() {
+            @Override
+            public void onAddMinerSuccess() {
+                Toast.makeText(EditingMinerDataBaseActivity.this, "Майнер успешно сохранен", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAddMinerError(Exception e) {
+                Toast.makeText(EditingMinerDataBaseActivity.this, "Ошибка сохранения: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

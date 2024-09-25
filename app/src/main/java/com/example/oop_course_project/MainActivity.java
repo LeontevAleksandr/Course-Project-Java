@@ -5,33 +5,26 @@ import LogicWork.CalculateResult;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import com.example.oop_course_project.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    CalculateResult profitabilityPerDay;
     private Button resultCalculateBtn;
     private Button hashRateCalculateBtn;
-
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private EditText hashRateET, electricityCostET, electricityConsumptionET, btcToRubET;
     private TextView resultIncomeOnDayTV, resultIncomeOnWeekTV, resultIncomeOnMouthTV;
+    private ActivityResultLauncher<Intent> hashRateActivityResultLauncher; // Для получения данных из HashRateActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +53,24 @@ public class MainActivity extends AppCompatActivity {
         hashRateCalculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Открываем новое активити HashRateActivity
+                // Открываем активити HashRateActivity с requestCode
                 Intent intent = new Intent(MainActivity.this, HashRateActivity.class);
-                startActivity(intent);
+                hashRateActivityResultLauncher.launch(intent);
             }
         });
+
+        hashRateActivityResultLauncher = registerForActivityResult( // Инициализация метода для получения данных из другого активити
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        double totalHashrate = result.getData().getDoubleExtra("totalHashrate", 0);
+                        double totalPowerConsumption = result.getData().getDoubleExtra("totalPowerConsumption", 0);
+
+                        hashRateET.setText(String.valueOf(totalHashrate));
+                        electricityConsumptionET.setText(String.valueOf(totalPowerConsumption));
+                    }
+                }
+        );
 
     }
 
@@ -88,29 +94,18 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (NumberFormatException e) {
             Log.e("MainActivity", "Ошибка ввода: " + e.getMessage());
-            // Можно добавить отображение ошибки пользователю, например с помощью Toast
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            double totalHashrate = data.getDoubleExtra("totalHashrate", 0);
+            double totalPowerConsumption = data.getDoubleExtra("totalPowerConsumption", 0);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            hashRateET.setText(String.valueOf(totalHashrate));
+            electricityConsumptionET.setText(String.valueOf(totalPowerConsumption));
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

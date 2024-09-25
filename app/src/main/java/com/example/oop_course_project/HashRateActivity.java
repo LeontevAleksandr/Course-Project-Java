@@ -5,8 +5,6 @@ import Storage.MinerRepository;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
@@ -41,11 +39,16 @@ public class HashRateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hashrate);
         Button backButton = findViewById(R.id.buttonBack);
 
-        // Установить обработчик нажатия
+        // Обработчик нажатия
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Закрыть текущее активити и вернуться в предыдущее
+                // Передача посчитанного хешрейта и энергопотрбления в MainActivity
+                Intent intent = new Intent();
+                intent.putExtra("totalHashrate", totalHashrate);
+                intent.putExtra("totalPowerConsumption", totalPowerConsumption);
+                setResult(RESULT_OK, intent);
+                // Закрыть текущее активити
                 finish();
             }
         });
@@ -103,19 +106,16 @@ public class HashRateActivity extends AppCompatActivity {
                 totalPowerConsumption = 0;
                 totalPowerConsumptionTV.setText("Общее потребление энергии: 0 Вт");
 
-                // Удаляем все строки в таблице, кроме заголовка
-                int childCount = minerTable.getChildCount();
-                if (childCount > 1) {
-                    minerTable.removeViews(0, childCount); // Удаляем все строки, начиная с 1
-                }
+                // Очищаем таблицу
+                minerTable.removeAllViews();
             }
         });
 
-        addMinerBtn = findViewById(R.id.addMinerBtn);
+        addMinerBtn = findViewById(R.id.editingMinerDataBaseBtn);
         addMinerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Переход к новому активити
+                // Переход к экрану редактирования базы данных майнеров
                 Intent intent = new Intent(HashRateActivity.this, EditingMinerDataBaseActivity.class);
                 startActivity(intent);
             }
@@ -123,82 +123,45 @@ public class HashRateActivity extends AppCompatActivity {
     }
 
     private void loadMiners() {
-        try {
-            minerRepository.loadMiners(new MinerRepository.OnMinersLoadedListener() {
-                @Override
-                public void onMinersLoaded(HashMap<String, Miner> minerData, List<String> minerNames) {
-                    HashRateActivity.this.minerData = minerData;
+        minerRepository.loadMiners(new MinerRepository.OnMinersLoadedListener() {
+            @Override
+            public void onMinersLoaded(HashMap<String, Miner> minerData, List<String> minerNames) {
+                HashRateActivity.this.minerData = minerData;
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(HashRateActivity.this,
+                        android.R.layout.simple_spinner_item, minerNames);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                minerSpinner.setAdapter(adapter);
+            }
 
-                    // Обновляем адаптер Spinner
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(HashRateActivity.this, android.R.layout.simple_spinner_item, minerNames);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    minerSpinner.setAdapter(adapter);
-
-                    // Лог успешной загрузки
-                    Log.d("loadMiners", "Майнеры успешно загружены");
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    // Обработка ошибок
-                    Toast.makeText(HashRateActivity.this, "Ошибка загрузки майнеров: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("loadMiners", "Ошибка при загрузке майнеров", e);
-                }
-            });
-        } catch (Exception e) {
-            // Дополнительная обработка возможных исключений
-            Toast.makeText(HashRateActivity.this, "Не удалось загрузить майнеров: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("loadMiners", "Неожиданная ошибка при загрузке майнеров", e);
-        }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(HashRateActivity.this, "Ошибка загрузки: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    // Метод для добавления строки в таблицу
-    private void addRowToTable(String miner, int quantity, double powerConsumption, double hashRate) {
+    private void addRowToTable(String minerName, int quantity, double powerForThisMiner, double totalForThisMiner) {
         TableRow row = new TableRow(this);
+        TextView nameTextView = new TextView(this);
+        nameTextView.setText(minerName);
+        nameTextView.setPadding(16, 16, 16, 16);
 
-        // Создаем TextView для названия майнера
-        TextView minerName = new TextView(this);
-        minerName.setText(miner);
-        minerName.setPadding(0, 8, 8, 8);
+        TextView quantityTextView = new TextView(this);
+        quantityTextView.setText(String.valueOf(quantity));
+        quantityTextView.setPadding(16, 16, 16, 16);
 
-        // Создаем TextView для количества майнеров
-        TextView minerQty = new TextView(this);
-        minerQty.setText(String.valueOf(quantity));
-        minerQty.setPadding(8, 8, 8, 8);
-        minerQty.setGravity(Gravity.CENTER);
+        TextView powerTextView = new TextView(this);
+        powerTextView.setText(String.valueOf(powerForThisMiner));
+        powerTextView.setPadding(16, 16, 16, 16);
 
-        // Создаем TextView для потребления энергии
-        TextView minerPower = new TextView(this);
-        minerPower.setText(String.valueOf(powerConsumption));
-        minerPower.setPadding(0, 8, 20, 8);
-        minerPower.setGravity(Gravity.CENTER);
+        TextView totalTextView = new TextView(this);
+        totalTextView.setText(String.valueOf(totalForThisMiner));
+        totalTextView.setPadding(16, 16, 16, 16);
 
-        // Создаем TextView для хэшрейта
-        TextView minerHashRate = new TextView(this);
-        minerHashRate.setText(String.valueOf(hashRate));
-        minerHashRate.setPadding(8, 8, 8, 8);
-        minerHashRate.setGravity(Gravity.END);
-
-        // Добавляем созданные TextView в строку
-        row.addView(minerName);
-        row.addView(minerQty);
-        row.addView(minerPower);
-        row.addView(minerHashRate);
-
-        // Добавляем строку в таблицу
+        row.addView(nameTextView);
+        row.addView(quantityTextView);
+        row.addView(powerTextView);
+        row.addView(totalTextView);
         minerTable.addView(row);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();  // Закрывает активити и возвращает на предыдущее
-        return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Перезагрузить майнеров при возвращении в активити
-        loadMiners();
     }
 }
