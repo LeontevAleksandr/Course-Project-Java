@@ -91,7 +91,7 @@
         android:layout_margin="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        android:text="" />
+        android:text="5882684.03" />
 
     <Button
         android:id="@+id/resultCalculateBtn"
@@ -141,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="Хешрейт"
+        android:text="Калькулятор хешрейта"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView

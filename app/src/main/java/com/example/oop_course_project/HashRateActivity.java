@@ -1,8 +1,11 @@
 package com.example.oop_course_project;
 
 import Storage.Miner;
+import Storage.MinerRepository;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +15,12 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class HashRateActivity extends AppCompatActivity {
     private Spinner minerSpinner;
@@ -26,6 +32,8 @@ public class HashRateActivity extends AppCompatActivity {
     private double totalHashrate = 0;
     private double totalPowerConsumption = 0;
     private HashMap<String, Miner> minerData;
+    private MinerRepository minerRepository;
+    private Button addMinerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +58,11 @@ public class HashRateActivity extends AppCompatActivity {
         minerTable = findViewById(R.id.minerTable);
         totalPowerConsumptionTV = findViewById(R.id.totalPowerConsumptionTV);
 
-        // Инициализируем данные майнеров, их хешрейт и потребление
-        minerData = new HashMap<>();
-        minerData.put("Bitmain Antminer S9", new Miner("Bitmain Antminer S9", 14.0, 1350.0));
-        minerData.put("Bitmain Antminer S19 PRO", new Miner("Bitmain Antminer S19 PRO", 110.0, 3250.0));
-        minerData.put("Whatsminer M30S", new Miner("Whatsminer M30S", 86.0, 3268.0));
+        // Инициализируем репозиторий майнеров
+        minerRepository = new MinerRepository();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, minerData.keySet().toArray(new String[0]));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        minerSpinner.setAdapter(adapter);
-
+        // Загружаем майнеров из Firestore
+        loadMiners();
 
         // Обработчик кнопки "Добавить"
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,46 @@ public class HashRateActivity extends AppCompatActivity {
                 }
             }
         });
+
+        addMinerBtn = findViewById(R.id.addMinerBtn);
+        addMinerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Переход к новому активити
+                Intent intent = new Intent(HashRateActivity.this, EditingMinerDataBaseActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void loadMiners() {
+        try {
+            minerRepository.loadMiners(new MinerRepository.OnMinersLoadedListener() {
+                @Override
+                public void onMinersLoaded(HashMap<String, Miner> minerData, List<String> minerNames) {
+                    HashRateActivity.this.minerData = minerData;
+
+                    // Обновляем адаптер Spinner
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(HashRateActivity.this, android.R.layout.simple_spinner_item, minerNames);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    minerSpinner.setAdapter(adapter);
+
+                    // Лог успешной загрузки
+                    Log.d("loadMiners", "Майнеры успешно загружены");
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    // Обработка ошибок
+                    Toast.makeText(HashRateActivity.this, "Ошибка загрузки майнеров: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("loadMiners", "Ошибка при загрузке майнеров", e);
+                }
+            });
+        } catch (Exception e) {
+            // Дополнительная обработка возможных исключений
+            Toast.makeText(HashRateActivity.this, "Не удалось загрузить майнеров: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("loadMiners", "Неожиданная ошибка при загрузке майнеров", e);
+        }
     }
 
     // Метод для добавления строки в таблицу
@@ -150,5 +193,12 @@ public class HashRateActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();  // Закрывает активити и возвращает на предыдущее
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Перезагрузить майнеров при возвращении в активити
+        loadMiners();
     }
 }

@@ -26,6 +26,10 @@
         <activity
             android:name=".HashRateActivity">
         </activity>
+
+        <activity
+            android:name=".EditingMinerDataBaseActivity">
+        </activity>
     </application>
 
 </manifest>

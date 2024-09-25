@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/addNewMinerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Добавить майнер"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#673AB7"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Название* майнера:"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/minerNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Хэшрейт (TH):"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/hashrateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Потребление энергии (Вт):"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/powerConsumptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сохранить" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Выберите майнер из БД для удаления:"
+        android:textSize="18dp" />
+
+    <Spinner
+        android:id="@+id/minerSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="12dp"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить майнер"/>
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Назад" />
+
+    <TextView
+        android:id="@+id/otherInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="*Программа работает только с майнерами типа Asiс. Расчеты с иными видами майнинга приложением не поддерживаются."
+        android:textAlignment="center"
+        android:textColorLink="#4B000000"
+        android:textSize="12sp" />
+</LinearLayout>

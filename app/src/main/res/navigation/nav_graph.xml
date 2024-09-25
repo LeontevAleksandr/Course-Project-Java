@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.oop_course_project.FirstFragment"
+        android:name="com.example.oop_course_project.EditingMinerDataBaseActivity"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/editing_miner_database_activity">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
