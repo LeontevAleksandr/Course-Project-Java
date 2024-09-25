@@ -64,7 +64,7 @@ public class HashRateActivity extends AppCompatActivity {
         // Инициализируем репозиторий майнеров
         minerRepository = new MinerRepository();
 
-        // Загружаем майнеров из Firestore
+        // Загружаем майнеры из Firestore
         loadMiners();
 
         // Обработчик кнопки "Добавить"

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private void calculateProfitability() {
         try {
             // Получение данных из полей ввода
-            int hashRate = Integer.parseInt(hashRateET.getText().toString());
+            double hashRate = Double.parseDouble(hashRateET.getText().toString());
             double electricityCost = Double.parseDouble(electricityCostET.getText().toString());
             double powerConsumptionW = Double.parseDouble(electricityConsumptionET.getText().toString());
             double btcToRub = Double.parseDouble(btcToRubET.getText().toString());

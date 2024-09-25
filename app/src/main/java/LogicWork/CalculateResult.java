@@ -5,7 +5,7 @@ public class CalculateResult {
     public static double profitabilityPerDay;
     private static double profitabilityPerWeek;
     private static double profitabilityPerMouth;
-    public static double profitabilityPerDay(int hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
+    public static double profitabilityPerDay(double hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
         // Затраты на электроэнергию за день
         double electricityCostPerDay = ((powerConsumptionW * 24) / 1000) * electricityCost;
 
@@ -20,11 +20,11 @@ public class CalculateResult {
         return profitabilityPerDay;
     }
 
-    public static double profitabilityPerWeek(int hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
+    public static double profitabilityPerWeek(double hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
         return profitabilityPerWeek = profitabilityPerDay(hashRate, btcToRub, powerConsumptionW, electricityCost) * 7;
     }
 
-    public static double profitabilityPerMouth(int hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
+    public static double profitabilityPerMouth(double hashRate, double btcToRub, double powerConsumptionW, double electricityCost) {
         return profitabilityPerMouth = profitabilityPerDay(hashRate, btcToRub, powerConsumptionW, electricityCost) * 30.5;
     }
 
