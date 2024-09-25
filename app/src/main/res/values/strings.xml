@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">OOP_Course_Project</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings" translatable="false">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
 
-    <string name="lorem_ipsum">
+    <string name="lorem_ipsum" translatable="false">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -43,4 +43,35 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="profit_miner" translatable="false">Прибыль Майнера</string>
+    <string name="hash_rate_prompt" translatable="false">Введите хешрейт TH:</string>
+    <string name="electricity_cost_prompt" translatable="false">Введите цену электроэнергии RUB/kWH:</string>
+    <string name="electricity_consumption_prompt" translatable="false">Введите потребление вашей системы W:</string>
+    <string name="btc_to_rub_prompt" translatable="false">Введите курс биткоина RUB:</string>
+    <string name="calculate_button" translatable="false">Посчитать</string>
+    <string name="your_income" translatable="false">Ваш доход*:</string>
+    <string name="system_assembly" translatable="false">Собрать систему</string>
+    <string name="other_info" translatable="false">*Приложение даёт приблизительную информацию и не является достоверным источником. Для более точной оценки требуется обработка большого количества данных.</string>
+
+    <string name="hashrate_info">Сборка системы</string>
+    <string name="miners_from_db">Майнеры из БД:</string>
+    <string name="miner_quantity">Количество майнеров:</string>
+    <string name="add_button">Добавить</string>
+    <string name="clear_button">Стереть</string>
+    <string name="miner">Майнер</string>
+    <string name="quantity">Кол-во</string>
+    <string name="power_consumption">По-ние (W)</string>
+    <string name="hashrate">Хешрейт (TH)</string>
+    <string name="total_hashrate">Общий хешрейт: 0 TH</string>
+    <string name="total_power_consumption">Общее потребление энергии: 0 Вт</string>
+    <string name="edit_database">Редактирование БД</string>
+    <string name="button_back">Назад</string>
+
+    <string name="edit_db_title">Редактирование БД</string>
+    <string name="miner_name_prompt">Название* майнера:</string>
+    <string name="hashrate_prompt">Хэшрейт (TH):</string>
+    <string name="power_consumption_prompt">Потребление энергии (Вт):</string>
+    <string name="save_button">Сохранить</string>
+    <string name="delete_prompt">Выберите майнер из БД для удаления:</string>
+    <string name="delete_button">Удалить майнер</string>
 </resources>

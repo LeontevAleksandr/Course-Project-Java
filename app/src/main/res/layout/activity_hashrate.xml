@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Калькулятор хешрейта"
+        android:text="@string/hashrate_info"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#673AB7"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Майнеры из БД:"
+        android:text="@string/miners_from_db"
         android:textSize="18dp" />
 
     <Spinner
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Количество майнеров:"
+        android:text="@string/miner_quantity"
         android:textSize="18dp" />
 
     <EditText
@@ -48,13 +48,13 @@
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Добавить" />
+        android:text="@string/add_button" />
 
     <Button
         android:id="@+id/clearButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Стереть" />
+        android:text="@string/clear_button" />
 
     <TableLayout
         android:id="@+id/minerTableAlt"
@@ -64,11 +64,10 @@
 
         <!-- Заголовки таблицы -->
         <TableRow>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Майнер"
+                android:text="@string/miner"
                 android:textStyle="bold" />
 
             <TextView
@@ -76,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:gravity="end"
-                android:text="Кол-во"
+                android:text="@string/quantity"
                 android:textStyle="bold" />
 
             <TextView
@@ -84,13 +83,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:gravity="end"
-                android:text="По-ние (W)"
+                android:text="@string/power_consumption"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Хешрейт (TH)"
+                android:text="@string/hashrate"
                 android:textStyle="bold" />
         </TableRow>
     </TableLayout>
@@ -112,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:text="Общий хешрейт: 0 TH"
+        android:text="@string/total_hashrate"
         android:textSize="18dp" />
 
     <TextView
@@ -120,18 +119,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:text="Общее потребление энергии: 0 Вт"
+        android:text="@string/total_power_consumption"
         android:textSize="18dp" />
 
     <Button
         android:id="@+id/editingMinerDataBaseBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Редактирование БД" />
+        android:text="@string/edit_database" />
 
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Назад" />
+        android:text="@string/button_back" />
 </LinearLayout>

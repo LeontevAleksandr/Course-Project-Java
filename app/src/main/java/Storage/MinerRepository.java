@@ -15,7 +15,7 @@ public class MinerRepository {
 
     public MinerRepository() {
         this.firestore = FirebaseFirestore.getInstance();
-        this.minersCollection = firestore.collection("miners"); // Укажите правильное имя коллекции
+        this.minersCollection = firestore.collection("miners");
     }
 
     public interface OnMinersLoadedListener {

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Добавить майнер"
+        android:text="@string/edit_db_title"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#673AB7"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Название* майнера:"
+        android:text="@string/miner_name_prompt"
         android:textSize="18dp" />
 
     <EditText
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Хэшрейт (TH):"
+        android:text="@string/hashrate_prompt"
         android:textSize="18dp" />
 
     <EditText
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Потребление энергии (Вт):"
+        android:text="@string/power_consumption_prompt"
         android:textSize="18dp" />
 
     <EditText
@@ -58,13 +58,13 @@
         android:id="@+id/saveBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Сохранить" />
+        android:text="@string/save_button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Выберите майнер из БД для удаления:"
+        android:layout_marginTop="40dp"
+        android:text="@string/delete_prompt"
         android:textSize="18dp" />
 
     <Spinner
@@ -78,19 +78,20 @@
         android:id="@+id/deleteBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Удалить майнер"/>
+        android:text="@string/delete_button"/>
 
     <Button
         android:id="@+id/backBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Назад" />
+        android:layout_marginTop="160dp"
+        android:text="@string/button_back" />
 
     <TextView
         android:id="@+id/otherInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="*Программа работает только с майнерами типа Asiс. Расчеты с иными видами майнинга приложением не поддерживаются."
+        android:text="@string/other_info"
         android:textAlignment="center"
         android:textColorLink="#4B000000"
         android:textSize="12sp" />
